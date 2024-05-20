@@ -32,3 +32,5 @@ $ hdfs dfsadmin -refreshNodes
 
 check 
 browser http://master:9870
+
+(go in inspect)
