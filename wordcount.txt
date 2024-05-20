@@ -5,12 +5,7 @@ google it
    - then click on first link  (apache hadoop map reduce) and then click on wordcount v1.0 then the word count program will open.
    - copy the code
 
-come to terminal
-    make a dir
-    nano WordCount.java
-         paste the code in this file which is copied
-     below is the code of wordcount in java hadoop
-
+$ cat > WordCount.java
 
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -74,10 +69,12 @@ public class WordCount {
   }
 }
 
-   -----------   the file name should be same as class name
+-----------   the file name should be same as class name
+$ stop-all.sh
 
 cd /usr/local/hadoop/etc/Hadoop
-vim mapread-ite.xml
+
+$ vim mapread-ite.xml
 
 <configuration>
 
@@ -96,24 +93,24 @@ vim mapread-ite.xml
 
 </configuration>
 
-
- echo $(hadoop classpath)                                    ...  it will print the path
- export HADOOP_CLASSPATH=$(hadoop classpath)          ...  path will be store
- javac -classpath $HADOOP_CLASSPATH WordCount.java   ...  it will compile it
- ls
- jar cf wc.jar WordCount*.class                       ...  it will create a jar file of all class
- nano words.txt
-    write into this file
-       hii
+$ start-all.sh
+$ echo $(hadoop classpath)                                 
+$ export HADOOP_CLASSPATH=$(hadoop classpath)       
+$ javac -classpath $HADOOP_CLASSPATH WordCount.java   
+$ ls
+$ jar cf wc.jar WordCount*.class                     
+$ cat > words.txt
 	hii
-       hello world
-       bbye
- jps                                    ....  start the cluster if not
- hdfs dfs -mkdir /wordcount
- hdfs dfs -mkdir /wordcount/input          .... created input dir in wordcount dir
- hdfs dfs -put words.txt /wordcount/input   .... put the words.txt file in wordcount/input here
- hadoop jar wc.jar WordCount /wordcount/input /wordcount/output      .... run command
- start-all.sh
+	hii
+	hello world
+	bbye
+
+$ jps                                   
+$ hdfs dfs -mkdir /wordcount
+$ hdfs dfs -mkdir /wordcount/input         
+$ hdfs dfs -put words.txt /wordcount/input  
+$ hadoop jar wc.jar WordCount /wordcount/input /wordcount/output      
+$ start-all.sh
 
  hdfs dfs -ls /wordcount
  hdfs dfs -ls /wordcount/output
