@@ -72,7 +72,7 @@ public class WordCount {
 -----------   the file name should be same as class name
 $ stop-all.sh
 
-cd /usr/local/hadoop/etc/Hadoop
+cd /usr/local/hadoop/etc/hadoop
 
 $ vim mapread-ite.xml
 	(add this)
