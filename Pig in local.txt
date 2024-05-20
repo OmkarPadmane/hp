@@ -1,0 +1,42 @@
+Pig in local
+
+$ start-all.sh
+
+$ wget https://mirrors.estointernet.in/apache/pig/pig-0.16.0/pig-0.16.0.tar.gz
+
+$ tar -xvf pig-0.16.0.tar.gz
+
+$ sudo mv pig-0.16.0 /usr/local/
+
+$ sudo vim /etc/bash.bashrc
+
+	export PIG_HOME=/usr/local/pig-0.16.0
+	export PATH=$PATH:$PIG_HOME/bin
+	export PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
+
+
+$ source /etc/bash.bashrc
+
+$pig -version
+
+
+$vim demo.txt
+ 
+001,Rajiv,23,Hyderabad
+002,siddarth,27,Kolkata
+003,Rajesh,22,Delhi
+004,Soham,21,Pune
+
+
+$ pig -x local
+
+$ demo = load '/home/hduser/demo.txt' using PigStorage(',') as (id:int,name:chararray,age:int,city:chararray);
+
+$ dump demo;
+
+--------------------------------------------------------------
+
+
+
+
+
