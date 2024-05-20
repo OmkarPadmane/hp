@@ -97,7 +97,7 @@
 	<configuration>
     	<property>
         <name>dfs.name.dir</name>
-        <value>/usr/local/hadoop/hd-	data/nn</value>
+        <value>/usr/local/hadoop/hd-data/nn</value>
     	</property>
     	<property>
         <name>dfs.replication</name>
