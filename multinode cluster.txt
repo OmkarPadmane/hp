@@ -74,7 +74,7 @@
 	$ wget -c -O hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz
 	$ sudo mkdir /usr/local/hadoop
 	$ tar xvzf hadoop.tar.gz
-	$ sudo mv hadoop-3.2.4/* /usr/local/Hadoop
+	$ sudo mv hadoop-3.2.4/* /usr/local/hadoop
 
 	$ cd /usr/local/hadoop/etc/hadoop
 	$ ls
