@@ -20,7 +20,7 @@
 	$ sudo apt install openjdk-8-jdk -y
 	$ sudo apt install net-tools -y
 	$ sudo apt install ssh vim pdsh
-	
+
 	$ cd
 
 ---set hostname
@@ -75,6 +75,8 @@
 	$ sudo mkdir /usr/local/hadoop
 	$ tar xvzf hadoop.tar.gz
 	$ sudo mv hadoop-3.2.4/* /usr/local/hadoop
+	$ sudo chown -R hpcsa:hpcsa /usr/local/hadoop
+	$ sudo chmod -R 755 /usr/local/hadoop
 
 	$ cd /usr/local/hadoop/etc/hadoop
 	$ ls
@@ -142,7 +144,7 @@
 	take snapshot
 	make 2 clones for datanode
 
----in datanode1  (follow this process for datanode 2,3)
+---in datanode1  (follow this process for datanodes)
 
 login in hduser
 
