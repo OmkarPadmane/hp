@@ -74,8 +74,8 @@ $ stop-all.sh
 
 cd /usr/local/hadoop/etc/hadoop
 
-$ vim mapread-ite.xml
-	(add this)
+$ vim mapred-site.xml
+	(add this don't remove privious property)
 
 <configuration>
 
@@ -113,9 +113,9 @@ $ hdfs dfs -put words.txt /wordcount/input
 $ hadoop jar wc.jar WordCount /wordcount/input /wordcount/output      
 $ start-all.sh
 
- hdfs dfs -ls /wordcount
- hdfs dfs -ls /wordcount/output
- hdfs dfs -cat /wordcount/output/part-r-00000
+ $ hdfs dfs -ls /wordcount
+ $ hdfs dfs -ls /wordcount/output
+ $ hdfs dfs -cat /wordcount/output/part-r-00000
 
 -----------------------------------------------------------------------------------
 for single cluster (if error comes) in below file
