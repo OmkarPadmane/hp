@@ -1,0 +1,253 @@
+---in master:
+
+---change password of user(osboxes)
+	$ sudo passwd osboxes
+
+
+---add user:
+	$ sudo adduser hduser
+	
+
+	$sudo visudo
+		--add it under root
+		hduser  ALL=(ALL:ALL) NOPASSWD:ALL  
+
+
+---switch user to hduser
+
+	$ sudo apt update
+	$ java version
+	$ sudo apt install openjdk-8-jdk -y
+	$ sudo apt install net-tools -y
+	$ sudo apt install ssh vim pdsh
+	
+	$ cd
+
+---set hostname
+	
+	$ sudo hostnamectl set-hostname master
+	$ sudo hostname master
+	(open new terminal)
+
+	 
+---cmd 
+
+	$ nano .bashrc 
+		--paste info given in git file at the end of bashrc file	
+
+	#JAVA
+	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+	export JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+
+	#Hadoop Environment Variables
+	export HADOOP_HOME=/usr/local/hadoop
+	export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+	export HADOOP_LOG_DIR=$HADOOP_HOME/logs
+
+	# Add Hadoop bin/ directory to PATH
+	export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+	export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+	export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native" 
+	export PDSH_RCMD_TYPE=ssh
+
+	$ source ~/.bashrc
+
+
+---Setup SSH
+	
+	$ sudo systemctl start ssh
+	$ sudo systemctl enable ssh
+
+
+--- Enable passwordless SSH
+
+	$ ssh-keygen -t rsa
+	$ ssh-copy-id -i ~/.ssh/id_rsa.pub hduser@localhost 
+	$ ssh-copy-id -i ~/.ssh/id_rsa.pub hduser@master
+	$ ssh hduser@localhost 
+	$ exit
+
+
+---Download Hadoop
+
+	$ cd
+	$ wget -c -O hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz
+	$ sudo mkdir /usr/local/hadoop
+	$ tar xvzf hadoop.tar.gz
+	$ sudo mv hadoop-3.2.4/* /usr/local/Hadoop
+
+	$ cd /usr/local/hadoop/etc/hadoop
+	$ ls
+	$ vim core-site.xml
+
+	<configuration>
+    	<property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://master:9000</value>
+    	</property>
+	</configuration>
+
+	$ vim hadoop-env.sh
+
+	JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+
+
+	$ vim hdfs-site.xml
+
+	<configuration>
+    	<property>
+        <name>dfs.name.dir</name>
+        <value>/usr/local/hadoop/hd-	data/nn</value>
+    	</property>
+    	<property>
+        <name>dfs.replication</name>
+        <value>2</value>
+    	</property>
+	</configuration>
+
+	$ vim mapred-site.xml 
+
+	<configuration>
+    	<property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+   	</property>
+    	<property>
+        <name>mapreduce.application.classpath</name>
+        <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
+   	</property>
+	</configuration>
+
+
+	$ vim yarn-site.xml 
+
+	<configuration>
+    	<property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>master</value>
+    	</property>
+	</configuration>
+
+	$ vim workers
+		DN1
+
+	$ cd
+	$ mkdir /usr/local/hadoop/hd-data
+	$ ip a
+	$ sudo vim /etc/hosts
+		enter ips 
+
+	$ sudo init 0
+
+	take snapshot
+	make 2 clones for datanode
+
+---in datanode1  (follow this process for datanode 2,3)
+
+login in hduser
+
+	$ sudo hostnamectl set-hostname DN1
+	$ sudo hostname DN1
+open new terminal
+
+	$ cat .bashrc
+	$ cd /usr/local/hadoop/etc/hadoop
+	
+	$ vim hdfs-site.xml
+
+	<configuration>
+    	<property>
+        <name>dfs.data.dir</name>
+        <value>/usr/local/hadoop/hd-data/dn</value>
+   	</property>
+    	<property>
+        <name>dfs.replication</name>
+        <value>2</value>
+    	</property>
+	</configuration>
+
+	$ vim yarn-site.xml 
+
+	<property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>master</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.local-dirs</name>
+        <value>/usr/local/hadoop/hd-data/yarn/data</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.logs-dirs</name>
+        <value>/usr/local/hadoop/hd-data/yarn/logs</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.disk-health-checker.max-disk-utilization-perdisk-percentage</name>
+        <value>99.9</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.vmem-check-enabled</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.env-whitelist</name>
+        <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
+    </property>
+
+
+	$ vim workers 
+		localhost
+	
+	$ cd
+	$ mkdir /usr/local/hadoop/yarn
+
+	$ ip a
+	$ sudo vim /etc/hosts
+		enter ips 
+
+
+---in master
+
+	$ ip a
+	$ sudo vim /etc/hosts
+		enter ips 
+	$ ssh-copy-id -i ~/.ssh/id_rsa.pub hduser@DN1
+	$ cd /usr/local/hadoop/etc/Hadoop
+	$ vim workers
+		dn1
+		dn2	
+	$ hadoop namenode -format
+
+restart all master, datanodes
+
+---in master
+
+	$ start-all.sh
+	$ jps
+
+---in dn1,dn2
+	
+	$ jps
+
+---in master
+	browser: http://master:9870
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
