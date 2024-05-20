@@ -75,6 +75,7 @@ $ stop-all.sh
 cd /usr/local/hadoop/etc/Hadoop
 
 $ vim mapread-ite.xml
+	(add this)
 
 <configuration>
 
