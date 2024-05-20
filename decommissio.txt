@@ -1,0 +1,34 @@
+in multimode only
+
+In master
+----------
+
+$ start-all.sh
+
+$ cd /etc/local/hadoop/etc/hadoop
+
+$ vim hdfs-site.xml
+
+add property
+
+<property>
+<name>dfs.hosts.exclude</name>
+<value>/usr/local/hadoop/exclude/hosts.exclude</value>
+</property>
+
+
+$ cd /usr/local/hadoop/
+
+$ mkdir exclude
+
+$ cd exclude
+
+$ vim hosts.exclude
+
+add datanode(dn3)
+which you want to exclude
+
+$ hdfs dfsadmin -refreshNodes
+
+check 
+browser http://master:9870
