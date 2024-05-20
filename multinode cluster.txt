@@ -75,7 +75,7 @@
 	$ sudo mkdir /usr/local/hadoop
 	$ tar xvzf hadoop.tar.gz
 	$ sudo mv hadoop-3.2.4/* /usr/local/hadoop
-	$ sudo chown -R hpcsa:hpcsa /usr/local/hadoop
+	$ sudo chown -R hduser:hduser /usr/local/hadoop
 	$ sudo chmod -R 755 /usr/local/hadoop
 
 	$ cd /usr/local/hadoop/etc/hadoop
