@@ -217,7 +217,7 @@ open new terminal
 	$ sudo vim /etc/hosts
 		enter ips 
 	$ ssh-copy-id -i ~/.ssh/id_rsa.pub hduser@DN1
-	$ cd /usr/local/hadoop/etc/Hadoop
+	$ cd /usr/local/hadoop/etc/hadoop
 	$ vim workers
 		dn1
 		dn2	
