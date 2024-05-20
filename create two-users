@@ -15,7 +15,6 @@ create group:
 
 mkdir :
 
-    hdfs dfs -mkdir youtube
     hdfs dfs -mkdir /youtube
     hdfs dfs -mkdir /twitter
     hdfs dfs -mkdir /nlp
