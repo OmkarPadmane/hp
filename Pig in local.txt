@@ -30,7 +30,7 @@ $vim demo.txt
 
 $ pig -x local
 
-$ demo = load '/home/hduser/demo.txt' using PigStorage(',') as (id:int,name:chararray,age:int,city:chararray);
+$ demo = LOAD '/home/hduser/demo.txt' USING PigStorage(',') as (id:int,name:chararray,age:int,city:chararray);
 
 $ dump demo;
 
